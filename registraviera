@@ -1,0 +1,16 @@
+#!/bin/bash
+
+COMMAND=""
+
+nc -lk 49159&
+
+#LOCAL_ADDR="http://192.168.1.2:49159"
+VIERA_ADDR="http://192.168.1.8:55000"
+CUERPO=""
+
+#curl -v -X SUBSCRIBE -H 'CALLBACK: <http://192.168.1.2:49159/dmr_volume>' -H 'NT: upnp:event' -H 'TIMEOUT: Second-300' $VIERA_ADDR
+curl -sl -X SUBSCRIBE -H 'CALLBACK: <http://192.168.1.2:49159/dmr_transport_state>' -H 'NT: upnp:event' -H 'TIMEOUT: Second-300' $VIERA_ADDR/dmr/event_2
+curl -sl -X SUBSCRIBE -H 'CALLBACK: <http://192.168.1.2:49159/nrc>' -H 'NT: upnp:event' -H 'TIMEOUT: Second-300' $VIERA_ADDR/nrc/event_0
+curl -sl -X SUBSCRIBE -H 'CALLBACK: <http://192.168.1.2:49159/dmr_volume>' -H 'NT: upnp:event' -H 'TIMEOUT: Second-300' $VIERA_ADDR/dmr/event_0
+curl -sl -X SUBSCRIBE -H 'CALLBACK: <http://192.168.1.2:49159/dms>' -H 'NT: upnp:event' -H 'TIMEOUT: Second-300' $VIERA_ADDR/dms/event_0
+

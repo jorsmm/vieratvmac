@@ -1,0 +1,8 @@
+#!/bin/bash
+
+COMMAND=""
+
+VIERA_ADDR="http://192.168.1.8:55000/dmr/event_0"
+CUERPO=""
+
+curl -v -X UNSUBSCRIBE -H 'SID: uuid:4D454931-0100-1001-8001-A8206629869C' $VIERA_ADDR

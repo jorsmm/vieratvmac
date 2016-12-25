@@ -1,0 +1,47 @@
+#!/bin/bash
+
+COMMAND=""
+
+VIERA_ADDR="http://192.168.1.8:55000/nrc/control_0"
+CMDNAME=`basename $0`
+if [ $# -ne 1 ]; then
+  echo "Usage: $CMDNAME [volup|voldown|chup|chdown|mute|mode|off|help]" 1>&2
+  exit 1
+fi
+
+case $1 in
+  "help")
+    echo "Usage:";;
+
+  "enter")
+    COMMAND="NRC_ENTER-ONOFF";;
+
+  "volup")
+    COMMAND="NRC_VOLUP-ONOFF";;
+
+  "voldown")
+    COMMAND="NRC_VOLDOWN-ONOFF";;
+
+  "chup")
+    COMMAND="NRC_CH_UP-ONOFF";;
+
+  "chdown")
+    COMMAND="NRC_CH_DOWN-ONOFF";;
+
+  "mute")
+    COMMAND="NRC_MUTE-ONOFF";;
+
+  "mode")
+    COMMAND="NRC_CHG_INPUT-ONOFF";;
+
+  "off")
+    COMMAND="NRC_POWER-ONOFF";;
+
+  "info")
+    COMMAND="NRC_INFO-ONOFF";;
+
+esac
+
+CUERPO="<?xml version=\"1.0\" encoding=\"utf-8\"?><s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"><s:Body><u:X_SendKey xmlns:u=\"urn:panasonic-com:service:p00NetworkControl:1\"><X_KeyEvent>$COMMAND</X_KeyEvent></u:X_SendKey></s:Body></s:Envelope>"
+
+curl -s -X POST -H 'SOAPACTION: "urn:panasonic-com:service:p00NetworkControl:1#X_SendKey"' -d "$CUERPO" $VIERA_ADDR
